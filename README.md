@@ -19,7 +19,7 @@ Never run Office macros without exactly understanding what they do. Never open m
 
 # Copy of the source code
 
-```
+```vb
 Sub resetAllSlides()
   Dim I As Integer
   Dim J As Integer
