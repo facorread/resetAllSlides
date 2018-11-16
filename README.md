@@ -19,6 +19,7 @@ Never run Office macros without exactly understanding what they do. Never open m
 
 # Copy of the source code
 
+```
 Sub resetAllSlides()
   Dim I As Integer
   Dim J As Integer
@@ -67,3 +68,4 @@ Sub resetAllSlides()
     Next I
   End With
 End Sub
+```
