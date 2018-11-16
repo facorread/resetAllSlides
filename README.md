@@ -28,10 +28,7 @@ Sub resetAllSlides()
       With .Fonts.Item(I)
         .Name = "Century Gothic"
         .Bold = msoFalse
-        'MsgBox .Color.RGB ' Color handling has to be manual
-        'If (.Color.RGB = -2147483648#) Then
-        '  .Color.RGB = vbWhite
-        'End If
+        .Color.RGB = vbWhite
       End With
     Next I
     For I = 1 To .Slides.Count ' For all slides,
@@ -55,7 +52,7 @@ Sub resetAllSlides()
                 .Line.Weight = 3
               Case msoTable, msoPlaceholder
               Case Else
-                If (Not .Line.Visible) Then ' Only borders not previously marked as invisible
+                If (.Line.Visible <> msoFalse) Then ' Only borders not previously marked as invisible
                   .Line.Visible = msoFalse ' No border
                 End If
             End Select
