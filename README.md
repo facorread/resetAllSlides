@@ -39,9 +39,7 @@ Sub resetAllSlides()
           With .Shapes(J)
             If (.HasTextFrame) Then
               If (.TextFrame2.HasText) Then
-                With .TextFrame2.TextRange
-                  .ParagraphFormat.IndentLevel = 1 ' First level paragraphs with no indentation
-                End With
+                .TextFrame2.TextRange.ParagraphFormat.IndentLevel = 1 ' First level paragraphs with no indentation
               End If
             End If
             Select Case .Type
