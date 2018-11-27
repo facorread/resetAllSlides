@@ -10,7 +10,8 @@ This PowerPoint macro-enabled presentation contains one procedure, `resetAllSlid
 * Delete all media objects (sounds, videos)
 * Delete all animations
 * Set all text to Century Gothic regular
-* Set all lines to white 3pt
+* Remove any empty lines of text
+* Set all lines to 3pt solid white
 * Remove borders from all shapes except for tables
 
 In order to maintain the integrity of your documents, make sure you have two open presentations only: Presentation macros, and your presentation in which you want to perform these operations. Your use of this file will result in loss of data for which only you will be responsible.
@@ -23,6 +24,7 @@ Never open macro-enabled Office documents without making sure they come from a t
 Sub resetAllSlides()
   Dim I As Integer
   Dim J As Integer
+  Dim K As Integer
   With ActivePresentation ' In your presentation,
     For I = .Fonts.Count To 1 Step -1 ' Count backwards because .Count changes
       With .Fonts.Item(I)
@@ -41,6 +43,11 @@ Sub resetAllSlides()
               If (.TextFrame2.HasText) Then
                 With .TextFrame2.TextRange
                   .ParagraphFormat.IndentLevel = 1 ' First level paragraphs with no indentation
+                  For K = .Lines.Count To 1 Step -1
+                    If (.Lines(K, 1).Text = vbCr) Then
+                      .Lines(K, 1).Delete
+                    End If
+                  Next K
                 End With
               End If
             End If
