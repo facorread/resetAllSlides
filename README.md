@@ -14,9 +14,15 @@ This PowerPoint macro-enabled presentation contains one procedure, `resetAllSlid
 * Set all lines to 3pt solid white
 * Remove borders from all shapes except for tables
 
-In order to maintain the integrity of your documents, make sure you have two open presentations only: Presentation macros, and your presentation in which you want to perform these operations. Your use of this file will result in loss of data for which only you will be responsible.
+Make a complete backup of each and every one of your documents before using any Office macros.
 
-Never open macro-enabled Office documents without making sure they come from a trusted source.
+Never open macro-enabled Office documents without making sure they come from a trusted source. Review them using PowerPoint Protected View and make sure you understand each and every instruction before you proceed any further.
+
+Make sure you have two open presentations only: Presentation macros, and your presentation in which you want to perform these operations.
+
+Your use of this file will result in loss of data for which only you will be responsible.
+
+You have been warned!
 
 # Copy of the source code
 
