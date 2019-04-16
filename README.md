@@ -1,10 +1,10 @@
 # resetAllSlides
 
-Removes all transitions, sounds, videos, animations, and most format from all slides in a PowerPoint presentation
+Removes all transitions, sounds, videos, animations, pictures, and most format from all slides in a PowerPoint presentation
 
 Copyright (C) 2018 Fabio Correa correaduran.1@osu.edu
 
-This PowerPoint macro-enabled presentation contains one procedure, `resetAllSlides`, with the following effects on each and every one of the slides in your presentation:
+This PowerPoint macro-enabled presentation contains two procedures: (1) `resetAllSlides`, with the following effects on each and every one of the slides in your presentation:
 
 * Remove all slide transitions
 * Delete all media objects (sounds, videos)
@@ -13,6 +13,8 @@ This PowerPoint macro-enabled presentation contains one procedure, `resetAllSlid
 * Remove any empty lines of text
 * Set all lines to 3pt solid white
 * Remove borders from all shapes except for tables
+
+(2) `removeAllPictures`, which removes all pictures from your presentation.
 
 Make a complete backup of each and every one of your documents before using any Office macros.
 
@@ -78,4 +80,41 @@ Sub resetAllSlides()
     Next I
   End With
 End Sub
+
+Sub removeAllPictures()
+  Dim I As Integer
+  Dim J As Integer
+  Dim K As Integer
+  Dim ContinueIteration As Boolean
+  With ActivePresentation ' In your presentation,
+    For I = 1 To .Slides.Count ' For all slides,
+      With .Slides(I)
+        '.Select ' Debug statement
+        .FollowMasterBackground = msoTrue
+        Do
+          ContinueIteration = False
+          For J = .Shapes.Count To 1 Step -1
+            With .Shapes(J)
+              '.Select ' Debug statement
+              'MsgBox ("Shape type " & .Type) ' Debug statement
+              Select Case .Type
+                Case msoPicture
+                  .Delete ' Delete picture
+                Case msoPlaceholder
+                  If (.PlaceholderFormat.ContainedType = msoPicture) Then
+                    .Delete ' Delete placeholder
+                  End If
+                Case msoGroup
+                  .Ungroup
+                  ContinueIteration = True
+                  Exit For
+              End Select
+            End With
+          Next J
+        Loop While (ContinueIteration)
+      End With
+    Next I
+  End With
+End Sub
+
 ```
