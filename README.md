@@ -33,6 +33,7 @@ Sub resetAllSlides()
   Dim I As Integer
   Dim J As Integer
   Dim K As Integer
+  Dim ContinueIteration As Boolean
   With ActivePresentation ' In your presentation,
     For I = .Fonts.Count To 1 Step -1 ' Count backwards because .Count changes
       With .Fonts.Item(I)
@@ -45,34 +46,41 @@ Sub resetAllSlides()
       With .Slides(I)
         .SlideShowTransition.EntryEffect = ppEffectNone ' Remove the slide transition
         ' .FollowMasterBackground = msoTrue ' Most probably unneccessary.
-        For J = .Shapes.Count To 1 Step -1
-          With .Shapes(J)
-            If (.HasTextFrame) Then
-              If (.TextFrame2.HasText) Then
-                With .TextFrame2.TextRange
-                  .ParagraphFormat.IndentLevel = 1 ' Format all paragraphs as first level with no indentation
-                  For K = .Lines.Count To 1 Step -1
-                    If (.Lines(K, 1).Text = vbCr) Then
-                      .Lines(K, 1).Delete ' Delete all empty lines
-                    End If
-                  Next K
-                End With
-              End If
-            End If
-            Select Case .Type
-              Case msoMedia
-                .Delete ' Delete all media objects altogether
-              Case msoLine
-                .Line.ForeColor.RGB = vbWhite ' Set all shape lines to 3pt solid white
-                .Line.Weight = 3
-              Case msoTable, msoPlaceholder
-              Case Else
-                If (.Line.Visible <> msoFalse) Then ' Only borders not previously marked as invisible
-                  .Line.Visible = msoFalse ' No border
+        Do
+          ContinueIteration = False
+          For J = .Shapes.Count To 1 Step -1
+            With .Shapes(J)
+              If (.HasTextFrame) Then
+                If (.TextFrame2.HasText) Then
+                  With .TextFrame2.TextRange
+                    .ParagraphFormat.IndentLevel = 1 ' Format all paragraphs as first level with no indentation
+                    For K = .Lines.Count To 1 Step -1
+                      If (.Lines(K, 1).Text = vbCr) Then
+                        .Lines(K, 1).Delete ' Delete all empty lines
+                      End If
+                    Next K
+                  End With
                 End If
-            End Select
-          End With
-        Next J
+              End If
+              Select Case .Type
+                Case msoMedia
+                  .Delete ' Delete all media objects altogether
+                Case msoLine
+                  .Line.ForeColor.RGB = vbWhite ' Set all shape lines to 3pt solid white
+                  .Line.Weight = 3
+                Case msoGroup
+                  .Ungroup
+                  ContinueIteration = True
+                  Exit For
+                Case msoTable, msoPlaceholder
+                Case Else
+                  If (.Line.Visible <> msoFalse) Then ' Only borders not previously marked as invisible
+                    .Line.Visible = msoFalse ' No border
+                  End If
+              End Select
+            End With
+          Next J
+        Loop While (ContinueIteration)
         For J = .TimeLine.MainSequence.Count To 1 Step -1
           .TimeLine.MainSequence(J).Delete ' Delete all animations
         Next J
